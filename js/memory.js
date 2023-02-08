@@ -29,6 +29,7 @@ let attempts = 0
 let score = 0
 let interval;
 let seconds
+let setTimeoutTimer = false // returns true when setTimeout() is active and false when its done.
 
 // timer function
 function timeSpend() {
@@ -86,7 +87,6 @@ function onSelectFieldSize() {
   cardDouble() // doubles those cards 
   populateField(myCardSet) // creates the layout
   timeSpend() // keeps track of the time when you change the board.
-  console.log(myCardSet);
 }
 
 // Resets the score and timer
@@ -149,14 +149,16 @@ function evaluateMatch() {
     // add 1 to score and attempt 
     attempts++
     score++
-    // remove the event listener until timer is done
+    // remove the event listener (and reset option) until timer is done
     myField.removeEventListener("click", onClickCard);
+    setTimeoutTimer = true
     // If card one and two are the same, take them out of game
     setTimeout(function () {
       cardOne.parentNode.style.visibility = "hidden";
       cardTwo.parentNode.style.visibility = "hidden";
       resetCards()
       myField.addEventListener("click", onClickCard);
+      setTimeoutTimer = false
     }, 2000);
     checkGameWon()
   } else if (cardTwo === "") {
@@ -164,14 +166,16 @@ function evaluateMatch() {
   } else {
     // add 1 to attempt
     attempts++
-    // remove the event listener until timer is done
+    // remove the event listener (and reset option) until timer is done
     myField.removeEventListener("click", onClickCard);
+    setTimeoutTimer = true
     // If Card one and two are not the same, cover up again
     setTimeout(function () {
       cardOne.parentNode.children[1].className = "covered";
       cardTwo.parentNode.children[1].className = "covered";
       resetCards()
       myField.addEventListener("click", onClickCard);
+      setTimeoutTimer = false
     }, 2000);
   }
   updateScore()
@@ -191,7 +195,11 @@ function resetCards() {
 
 // resets game while keeping same board size
 function resetGame() {
-  onSelectFieldSize()
+  // setTimeoutTimer is true until the setTimeout function is done playing (to prevent bugs)
+  if (setTimeoutTimer) { }
+  else {
+    onSelectFieldSize()
+  }
 }
 
 // Fisher–Yates Shuffle (randomize function)
@@ -199,10 +207,8 @@ function shuffle(array) {
   var m = array.length, t, i;
   // While there remain elements to shuffle…
   while (m) {
-
     // Pick a remaining element…
     i = Math.floor(Math.random() * m--);
-
     // And swap it with the current element.
     t = array[m];
     array[m] = array[i];
@@ -215,7 +221,6 @@ fetch("js/cards.json")
   .then(response => response.json())
   .then(data => {
     myCardSet = data.map(card => new Card(card));
-    console.log(myCardSet)
   })
 
 // Gets userName and adds a welcome message. If userName is not defined, asks for it with prompt.
@@ -225,7 +230,6 @@ if (!userName) {
   localStorage.setItem('userName', userName);
 }
 user.innerHTML = `Welcome, ${userName}!`
-// localStorage.clear(); will reset localStorage to default
 
 // gets all highscores from localStorage, if null return 0
 function getHighScore(key) {
@@ -268,7 +272,6 @@ window.onclick = function (event) {
   if (event.target == overlay || event.target === exitHighScore) {
     modal.style.display = "none";
     overlay.style.display = "none";
-
   }
 }
 
@@ -329,3 +332,5 @@ function highScoreLogic(highScoreAttempts, highScoreTimer, boardSize) {
     highscoreText.innerHTML = "No new Highscore!"
   }
 }
+
+// localStorage.clear(); will reset localStorage to default
