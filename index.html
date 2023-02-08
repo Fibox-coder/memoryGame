@@ -1,0 +1,54 @@
+	<!doctype html>
+	<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Cardgame</title>
+		<link href="css/game.css" rel="stylesheet">
+		<link rel="shortcut icon" href="#">
+	</head>
+
+	<body>
+		<div id="user">Welcome!</div>
+	<select id="selectOptions">
+		<option value="">Kies een speelveld</option>
+		<option value="4">4x4</option>
+		<option value="5">5x5</option>
+		<option value="6">6x6</option>
+	</select>
+	<div id="field"></div>
+
+	<div class="container">
+		<div id="attempts">Attempts: 0</div>
+		<div id="score">Score: 0</div>
+		<div id="time">Time: 0</div>
+	</div>
+	
+	<div id="containerBtns">
+		<button class="buttonClass" id="reset">Reset Game</button>
+		<button class="buttonClass" id="viewHighscore">View Highscore</button>
+	</div>
+
+
+
+	<div class="modal" id="modal">
+	 <button id="exitHighScore">X</button>
+	 <div class="highscore highscoreText" id="highscoreText">Highscore:</div>
+   <div class="highscore highscoreText">Highscore 4x4:</div>
+	 <div class="highscore" id="attempts4x4">Attempts: -</div>
+	 <div id="time4x4" class="highscore">Fastest time: -</div>
+	 <div class="highscore highscoreText">Highscore 5x5:</div>
+	 <div class="highscore" id="attempts5x5">Attempts: -</div>
+	 <div id="time5x5" class="highscore">Fastest time: -</div>
+	 <div class="highscore highscoreText">Highscore 6x6:</div>
+	 <div class="highscore" id="attempts6x6">Attempts: -</div>
+	 <div id="time6x6" class="highscore">Fastest time: -</div>
+  </div>
+	
+	<div class="overlay" id="overlay"></div>
+
+			
+		<script src="js/memory.js" type="module"></script>
+	</body>
+
+	</html>

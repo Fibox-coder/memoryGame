@@ -1,0 +1,170 @@
+#field {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+#field>div {
+  padding: 5px;
+  position: relative;
+}
+
+img {
+  width: 100%;
+}
+
+.board4 {
+  flex: 25%;
+  max-width: 25%;
+  box-sizing: border-box;
+}
+
+.board5 {
+  flex: 20%;
+  max-width: 20%;
+  box-sizing: border-box;
+}
+
+.board6 {
+  flex: 16.66666%;
+  max-width: 16.66666%;
+  box-sizing: border-box;
+}
+
+.covered,
+.uncovered {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+}
+
+.uncovered {
+  display: none;
+}
+
+img {
+  margin: 0;
+  display: block;
+}
+
+#user {
+  display: block;
+  margin: 0 auto;
+  padding: 10px;
+  font-size: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#selectOptions {
+  display: block;
+  margin: 0 auto;
+  padding: 10px;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.container {
+  font-size: 3rem;
+  display: flex;
+  gap: 100px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+#containerBtns {
+  display: flex;
+}
+
+.buttonClass:hover {
+  box-shadow: 0px 1px 5px 0px rgb(122, 122, 122);
+}
+
+#reset,
+#viewHighscore {
+  display: block;
+  margin: 0 auto;
+  background-color: white;
+  padding: 10px;
+  font-size: 1.2rem;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+@media screen and (min-width: 768px) {
+  #field {
+    max-width: 768px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  #containerBtns {
+    flex-direction: column;
+    margin: 0;
+  }
+
+}
+
+
+.modal {
+  display: none;
+  width: 500px;
+  height: 800px;
+  background-color: rgb(218, 218, 218);
+  z-index: 3;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border-radius: 10px;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  height: 200vw;
+  width: 200vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.highscore {
+  font-size: 2.5rem;
+  margin-top: 25px;
+}
+
+.highscoreText {
+  font-weight: bold;
+}
+
+#exitHighScore {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 30px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(218, 218, 218);
+}
+
+#exitHighScore:hover {
+  box-shadow: 0px 0px 5px 2px black;
+}
