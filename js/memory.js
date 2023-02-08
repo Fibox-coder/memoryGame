@@ -10,7 +10,6 @@ class Card {
   }
 }
 
-
 const selectOptions = document.getElementById('selectOptions') // gets the select options
 const myField = document.getElementById('field'); // gets the board where the tiles will be placed
 const modal = document.getElementById('modal')
@@ -69,7 +68,6 @@ function cardDouble() {
   shuffle(myCardSet) // Randomizes where the cards appear
 }
 
-
 // switch option for picking board size (4x4, 5x5, 6x6)
 function onSelectFieldSize() {
   switch (selectOptions.value) {
@@ -124,16 +122,19 @@ function populateField(myCardSet) {
 
 // Removes the cover, and console logs the name of the card.
 function onClickCard(e) {
-  if (e.target.className === "covered") {
+  // check if image is pressed and covered
+  if (e.srcElement.tagName === "IMG" && e.target.className === "covered") {
+    // uncover
     e.target.className = "uncovered"
+    // check if cardOne already has a value, if no give it the value, else give cardTwo the value
     if (cardOne === "") {
       cardOne = e.target.parentNode.firstChild
     } else {
       cardTwo = e.target.parentNode.firstChild
     }
+    audioSound(e) // play animal sound
+    evaluateMatch() // Check if it is a match
   }
-  audioSound(e)
-  evaluateMatch()
 }
 
 // Makes an animal sound play.
@@ -142,7 +143,6 @@ function audioSound(e) {
   audio.src = 'js/snd/' + e.target.parentNode.firstChild.name + ".wav";
   audio.play();
 }
-
 
 function evaluateMatch() {
   if (cardOne.name === cardTwo.name) {
@@ -263,7 +263,6 @@ function modalLayout() {
   overlay.style.display = "block";
 }
 
-
 // When the user clicks anywhere outside of the modal or the X, close it
 window.onclick = function (event) {
   if (event.target == overlay || event.target === exitHighScore) {
@@ -276,6 +275,7 @@ window.onclick = function (event) {
 // Show Highscore when clicking on button
 viewHighscore.addEventListener('click', modalLayout)
 
+//Checks which board is played on and if it has been completed. Then compare highScore
 function checkGameWon() {
   switch (selectOptions.value) {
     case "4":
@@ -289,37 +289,43 @@ function checkGameWon() {
       break;
     case "5":
       if (score === 12) {
-
+        // Check for new highScore -> Update highScore -> show highScore screen -> stop timer
+        highScoreLogic(highScore5x5, highScoreTime5x5, '5x5')
+        updateHighScores()
+        modalLayout()
+        clearInterval(interval)
       }
       break;
     case "6":
       if (score === 18) {
-
+        // Check for new highScore -> Update highScore -> show highScore screen -> stop timer
+        highScoreLogic(highScore6x6, highScoreTime6x6, '6x6')
+        updateHighScores()
+        modalLayout()
+        clearInterval(interval)
       }
       break;
   }
 }
 
+// Function that finds if the highscore is reached. Attempts are more important than Time.
 function highScoreLogic(highScoreAttempts, highScoreTimer, boardSize) {
   if (highScoreAttempts === 0) {
-    highscoreText.innerHTML = "new highscore!"
+    highscoreText.innerHTML = `New Highscore for ${boardSize}!`
     // save new highScore in localStorage first time completing the game
     localStorage.setItem("highScore" + boardSize, attempts);
     localStorage.setItem("highScoreTime" + boardSize, seconds);
   } else if (Number(highScoreAttempts) > attempts) {
-    highscoreText.innerHTML = "new highscore!"
-    // save new highScore in localStorage
+    highscoreText.innerHTML = `New Highscore for ${boardSize}!`
+    // save new highScore in localStorage when attempts are lower
     localStorage.setItem("highScore" + boardSize, attempts);
     localStorage.setItem("highScoreTime" + boardSize, seconds);
   } else if (Number(highScoreAttempts) === attempts && Number(highScoreTimer) > seconds) {
-    // attempts is same, but completed faster
+    // save new highScore when attempts are the same, but completed faster
     localStorage.setItem("highScoreTime" + boardSize, seconds);
-    highscoreText.innerHTML = "new fastest highscore!"
+    highscoreText.innerHTML = `New Highscore for ${boardSize}!`
   } else {
-    highscoreText.innerHTML = "No new highscore!"
+    // highScore not beaten
+    highscoreText.innerHTML = "No new Highscore!"
   }
-
 }
-
-
-// note to self:  when you got 2 of the same cards, and click on an empty div card, it bugs. 
