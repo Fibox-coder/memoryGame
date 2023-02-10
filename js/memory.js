@@ -144,6 +144,7 @@ function audioSound(e) {
   audio.play();
 }
 
+// Evaluates if cardOne and cardTwo are the same, yes = add score + attempt, no = add attempt
 function evaluateMatch() {
   if (cardOne.name === cardTwo.name) {
     // add 1 to score and attempt 
@@ -229,7 +230,12 @@ if (!userName) {
   userName = prompt('What is your name?');
   localStorage.setItem('userName', userName);
 }
-user.innerHTML = `Welcome, ${userName}!`
+if (userName === null) {
+  userName = ""
+  user.innerHTML = `Welcome!`
+} else {
+  user.innerHTML = `Welcome, ${userName}!`
+}
 
 // gets all highscores from localStorage, if null return 0
 function getHighScore(key) {
